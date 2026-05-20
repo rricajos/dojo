@@ -1,0 +1,6 @@
+[submodule "php"]
+	path = php
+	url = https://github.com/rricajos/PHP.git
+[submodule "javascript"]
+	path = javascript
+	url = https://github.com/rricajos/javascript.git
