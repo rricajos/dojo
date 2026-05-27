@@ -10,3 +10,7 @@
 	path = java
 	url = https://github.com/rricajos/java.git
 	branch = main
+[submodule "php-task-manager"]
+	path = php-task-manager
+	url = https://github.com/rricajos/php-task-manager.git
+	branch = main
