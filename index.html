@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Languages Dojo</title>
+  <meta name="description" content="Interactive handbooks for JavaScript and Java — code examples, quizzes, and progress tracking.">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #1e1e1e;
+      --bar-h: 48px;
+      --accent-js: #f7df1e;
+      --accent-java: #f89820;
+      --tab-bg: #2a2a2a;
+      --tab-hover: #333;
+      --text-muted: #888;
+    }
+
+    html, body {
+      height: 100%;
+      background: var(--bg);
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      overflow: hidden;
+    }
+
+    /* ── header ────────────────────────────────── */
+    header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: var(--bar-h);
+      background: #141414;
+      border-bottom: 1px solid #2a2a2a;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0 16px;
+      z-index: 100;
+    }
+
+    .brand {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      white-space: nowrap;
+      user-select: none;
+    }
+
+    .divider {
+      width: 1px;
+      height: 20px;
+      background: #333;
+      flex-shrink: 0;
+    }
+
+    /* ── tab nav ────────────────────────────────── */
+    nav {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+    }
+
+    .tab {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 5px 14px;
+      border-radius: 6px;
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+      white-space: nowrap;
+    }
+
+    .tab:hover {
+      background: var(--tab-hover);
+      color: #ccc;
+    }
+
+    .tab .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .tab[data-lang="javascript"] .dot { background: var(--accent-js); }
+    .tab[data-lang="java"]       .dot { background: var(--accent-java); }
+
+    .tab.active {
+      background: var(--tab-bg);
+      border-color: #3a3a3a;
+      color: #eee;
+    }
+
+    .tab[data-lang="javascript"].active { color: var(--accent-js); }
+    .tab[data-lang="java"].active       { color: var(--accent-java); }
+
+    /* ── iframe ─────────────────────────────────── */
+    iframe {
+      position: fixed;
+      top: var(--bar-h);
+      left: 0;
+      width: 100%;
+      height: calc(100% - var(--bar-h));
+      border: none;
+      background: var(--bg);
+      display: block;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    iframe.ready { opacity: 1; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <span class="brand">Languages Dojo</span>
+    <div class="divider"></div>
+    <nav id="nav">
+      <button class="tab" data-lang="javascript">
+        <span class="dot"></span> jsdojo
+      </button>
+      <button class="tab" data-lang="java">
+        <span class="dot"></span> java dojo
+      </button>
+    </nav>
+  </header>
+
+  <iframe id="frame" title="Language Dojo" allowfullscreen></iframe>
+
+  <script>
+    const LANGS = {
+      javascript: './javascript/',
+      java:       './java/'
+    };
+
+    const frame = document.getElementById('frame');
+    const nav   = document.getElementById('nav');
+
+    function load(lang) {
+      if (!LANGS[lang]) lang = 'javascript';
+
+      nav.querySelectorAll('.tab').forEach(function (t) {
+        t.classList.toggle('active', t.dataset.lang === lang);
+      });
+
+      frame.classList.remove('ready');
+      frame.src = LANGS[lang];
+
+      history.replaceState(null, '', '#' + lang);
+    }
+
+    frame.addEventListener('load', function () {
+      frame.classList.add('ready');
+    });
+
+    nav.addEventListener('click', function (e) {
+      var tab = e.target.closest('.tab');
+      if (tab) load(tab.dataset.lang);
+    });
+
+    // initial load from hash or default
+    var initial = location.hash.replace('#', '');
+    load(LANGS[initial] ? initial : 'javascript');
+  </script>
+
+</body>
+</html>
