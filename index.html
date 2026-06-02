@@ -4,15 +4,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Languages Dojo</title>
-  <meta name="description" content="Interactive handbooks for JavaScript and Java — code examples, quizzes, and progress tracking.">
+  <meta name="description" content="Interactive handbooks for JavaScript, Java and PHP — code examples, quizzes, and progress tracking.">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
       --bg: #1e1e1e;
       --bar-h: 48px;
-      --accent-js: #f7df1e;
+      --accent-js:   #f7df1e;
       --accent-java: #f89820;
+      --accent-php:  #777BB4;
       --tab-bg: #2a2a2a;
       --tab-hover: #333;
       --text-muted: #888;
@@ -93,6 +94,7 @@
 
     .tab[data-lang="javascript"] .dot { background: var(--accent-js); }
     .tab[data-lang="java"]       .dot { background: var(--accent-java); }
+    .tab[data-lang="php"]        .dot { background: var(--accent-php); }
 
     .tab.active {
       background: var(--tab-bg);
@@ -102,6 +104,7 @@
 
     .tab[data-lang="javascript"].active { color: var(--accent-js); }
     .tab[data-lang="java"].active       { color: var(--accent-java); }
+    .tab[data-lang="php"].active        { color: var(--accent-php); }
 
     /* ── iframe ─────────────────────────────────── */
     iframe {
@@ -132,6 +135,9 @@
       <button class="tab" data-lang="java">
         <span class="dot"></span> java dojo
       </button>
+      <button class="tab" data-lang="php">
+        <span class="dot"></span> php dojo
+      </button>
     </nav>
   </header>
 
@@ -140,7 +146,8 @@
   <script>
     const LANGS = {
       javascript: './javascript/',
-      java:       './java/'
+      java:       './java/',
+      php:        './php/'
     };
 
     const frame = document.getElementById('frame');
